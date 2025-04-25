@@ -17,3 +17,9 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # Set working directory
 WORKDIR /var/www
+
+# Optional: pre-copy composer.json to cache deps
+COPY composer.json composer.lock ./
+RUN composer install --no-scripts --no-autoloader || true
+
+# Rest of code mounted at runtime
